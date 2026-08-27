@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Confirmação de Agenda · Emagrecentro</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1B4443">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal-950:#0f2f2e;
+    --teal-900:#1B4443;
+    --teal-700:#2a615f;
+    --teal-100:#e4efee;
+    --gold-600:#b8894a;
+    --gold-500:#c9a15c;
+    --gold-200:#f0dfbb;
+    --cream:#faf6ee;
+    --paper:#ffffff;
+    --rose:#d9a9a0;
+    --ink:#1e2624;
+    --ink-soft:#5c6664;
+    --line:#e6e0d2;
+    --danger:#b5533f;
+    --ok:#3c7a63;
+    --radius:14px;
+    --shadow: 0 1px 2px rgba(15,47,46,0.06), 0 8px 24px -12px rgba(15,47,46,0.18);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding-bottom:48px;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+  }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+
+  header.top{
+    background: linear-gradient(160deg, var(--teal-900) 0%, var(--teal-950) 100%);
+    color:var(--gold-200);
+    padding:28px 20px 68px;
+    position:relative;
+    overflow:hidden;
+  }
+  header.top::after{
+    content:"";
+    position:absolute;
+    right:-40px; top:-40px;
+    width:180px; height:180px;
+    border-radius:50%;
+    border:1px solid rgba(201,161,92,0.25);
+  }
+  header.top::before{
+    content:"";
+    position:absolute;
+    right:10px; top:20px;
+    width:90px; height:90px;
+    border-radius:50%;
+    border:1px solid rgba(201,161,92,0.18);
+  }
+  .eyebrow{
+    text-transform:uppercase;
+    font-size:11px;
+    letter-spacing:0.16em;
+    color:var(--gold-500);
+    font-weight:600;
+    margin:0 0 6px;
+  }
+  header.top h1{
+    color:#fff;
+    font-size:26px;
+    margin:0 0 6px;
+    max-width:280px;
+  }
+  header.top p{
+    margin:0;
+    font-size:13.5px;
+    color:rgba(240,223,187,0.75);
+    max-width:300px;
+    line-height:1.5;
+  }
+
+  .stats{
+    display:flex;
+    gap:10px;
+    margin:-44px 16px 0;
+    position:relative;
+    z-index:2;
+  }
+  .stat{
+    flex:1;
+    background:var(--paper);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:14px 10px;
+    text-align:center;
+  }
+  .stat .num{
+    font-family:'Fraunces', serif;
+    font-size:24px;
+    font-weight:700;
+    display:block;
+    line-height:1;
+  }
+  .stat .num.ok{color:var(--ok);}
+  .stat .num.pending{color:var(--gold-600);}
+  .stat .num.total{color:var(--teal-900);}
+  .stat .label{
+    font-size:10.5px;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin-top:2px;
+    display:block;
+  }
+
+  main{
+    max-width:520px;
+    margin:0 auto;
+    padding:24px 16px 0;
+  }
+
+  .panel{
+    background:var(--paper);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:18px;
+    margin-bottom:16px;
+  }
+  .panel h2{
+    font-size:15px;
+    margin:0 0 4px;
+    color:var(--teal-900);
+  }
+  .panel .sub{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin:0 0 14px;
+    line-height:1.5;
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    border:none;
+    border-radius:10px;
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:13.5px;
+    padding:11px 16px;
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:active{ transform:scale(0.97); }
+  .btn-primary{
+    background:var(--teal-900);
+    color:var(--gold-200);
+    width:100%;
+  }
+  .btn-primary:hover{ background:var(--teal-950); }
+  .btn-ghost{
+    background:transparent;
+    color:var(--teal-900);
+    border:1px solid var(--line);
+  }
+  .btn-gold{
+    background:linear-gradient(180deg, var(--gold-500), var(--gold-600));
+    color:#fff;
+  }
+  .btn-sm{ padding:8px 12px; font-size:12.5px; }
+  .btn-icon{ width:1em; height:1em; flex:none; }
+
+  input[type=file]{ display:none; }
+  .upload-drop{
+    border:1.5px dashed var(--line);
+    border-radius:12px;
+    padding:20px 14px;
+    text-align:center;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .upload-drop:hover, .upload-drop.drag{
+    border-color:var(--gold-500);
+    background:var(--teal-100);
+  }
+  .upload-drop .icon{
+    font-size:22px;
+    display:block;
+    margin-bottom:6px;
+  }
+  .upload-drop .t1{ font-size:13.5px; font-weight:600; color:var(--teal-900); }
+  .upload-drop .t2{ font-size:11.5px; color:var(--ink-soft); margin-top:2px; }
+
+  textarea{
+    width:100%;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px;
+    font-family:'Work Sans', sans-serif;
+    font-size:13.5px;
+    line-height:1.55;
+    color:var(--ink);
+    resize:vertical;
+    min-height:92px;
+    background:var(--teal-100);
+  }
+  textarea:focus, input:focus{ outline:2px solid var(--gold-500); outline-offset:1px; }
+  .vars{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:8px;
+  }
+  .var-chip{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    background:var(--gold-200);
+    color:var(--teal-950);
+    padding:3px 8px;
+    border-radius:20px;
+  }
+
+  .section-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:22px 4px 10px;
+  }
+  .section-title h3{
+    font-size:16px;
+    margin:0;
+    color:var(--teal-900);
+  }
+  .section-title .count{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--ink-soft);
+  }
+
+  .filters{
+    display:flex;
+    gap:6px;
+    margin:0 4px 14px;
+    overflow-x:auto;
+  }
+  .filter-chip{
+    flex:none;
+    font-size:12px;
+    font-weight:600;
+    padding:6px 13px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:var(--paper);
+    color:var(--ink-soft);
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .filter-chip.active{
+    background:var(--teal-900);
+    border-color:var(--teal-900);
+    color:var(--gold-200);
+  }
+
+  .patient-card{
+    background:var(--paper);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:14px 14px 14px 16px;
+    margin-bottom:10px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    position:relative;
+    border-left:3px solid var(--line);
+  }
+  .patient-card.confirmed{ border-left-color:var(--ok); }
+  .patient-card.pending{ border-left-color:var(--gold-500); }
+  .patient-card.noresponse{ border-left-color:var(--danger); }
+
+  .patient-info{ flex:1; min-width:0; }
+  .patient-name{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:15px;
+    color:var(--ink);
+    margin:0 0 2px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .patient-meta{
+    font-size:12px;
+    color:var(--ink-soft);
+    display:flex;
+    gap:8px;
+    align-items:center;
+  }
+  .patient-meta .time-badge{
+    font-family:'IBM Plex Mono', monospace;
+    background:var(--teal-100);
+    color:var(--teal-900);
+    padding:1px 7px;
+    border-radius:6px;
+    font-size:11.5px;
+  }
+  .status-pill{
+    font-size:10.5px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    padding:2px 8px;
+    border-radius:20px;
+  }
+  .status-pill.confirmed{ background:#e2f0e9; color:var(--ok); }
+  .status-pill.pending{ background:var(--gold-200); color:var(--gold-600); }
+  .status-pill.noresponse{ background:#f6e3de; color:var(--danger); }
+
+  .patient-actions{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    flex:none;
+  }
+  .icon-btn{
+    width:38px; height:38px;
+    border-radius:10px;
+    border:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    font-size:17px;
+  }
+  .icon-btn.wa{ background:#25D366; color:#fff; }
+  .icon-btn.check{ background:var(--teal-100); color:var(--teal-900); }
+  .icon-btn.check.done{ background:var(--ok); color:#fff; }
+
+  .empty{
+    text-align:center;
+    padding:40px 20px;
+    color:var(--ink-soft);
+  }
+  .empty .icon{ font-size:32px; display:block; margin-bottom:8px; }
+  .empty p{ font-size:13px; margin:4px 0 0; line-height:1.5; }
+
+  .toast{
+    position:fixed;
+    bottom:20px; left:50%;
+    transform:translateX(-50%) translateY(120%);
+    background:var(--teal-950);
+    color:var(--gold-200);
+    padding:11px 20px;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:600;
+    box-shadow:var(--shadow);
+    transition:transform .25s ease;
+    z-index:50;
+    white-space:nowrap;
+  }
+  .toast.show{ transform:translateX(-50%) translateY(0); }
+
+  .swap-row{ display:flex; gap:8px; margin-top:12px; }
+  .swap-row .btn{ flex:1; }
+
+  .footer-note{
+    text-align:center;
+    font-size:11px;
+    color:var(--ink-soft);
+    margin-top:26px;
+    padding:0 20px;
+    line-height:1.6;
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <p class="eyebrow">Emagrecentro Araruama</p>
+  <h1>Confirmação de Agenda</h1>
+  <p>Importe a lista do dia e confirme cada paciente pelo WhatsApp, sem robô, sem custo.</p>
+</header>
+
+<div class="stats">
+  <div class="stat"><span class="num total" id="statTotal">0</span><span class="label">Total</span></div>
+  <div class="stat"><span class="num ok" id="statOk">0</span><span class="label">Confirmados</span></div>
+  <div class="stat"><span class="num pending" id="statPending">0</span><span class="label">Pendentes</span></div>
+</div>
+
+<main>
+
+  <div class="panel">
+    <h2>1. Importar pacientes</h2>
+    <p class="sub">Aceita o relatório <span class="mono">.xlsx</span> exportado direto do sistema, ou um CSV com <span class="mono">nome, telefone, horario</span>.</p>
+    <label class="upload-drop" id="dropZone" for="csvInput">
+      <span class="icon">📄</span>
+      <span class="t1">Toque para escolher o arquivo</span>
+      <span class="t2">.xlsx ou .csv — ou arraste aqui</span>
+    </label>
+    <input type="file" id="csvInput" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+    <div id="dateFilterRow" style="display:none;margin-top:12px;">
+      <label style="font-size:12px;font-weight:600;color:var(--teal-900);display:block;margin-bottom:6px;">Dia a confirmar</label>
+      <select id="dateSelect" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-family:'Work Sans',sans-serif;font-size:13.5px;color:var(--ink);background:var(--paper);"></select>
+    </div>
+    <div class="swap-row" id="importActions" style="display:none;">
+      <button class="btn btn-ghost btn-sm" id="clearAllBtn">Limpar lista</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>2. Modelo da mensagem</h2>
+    <p class="sub">Editável — o texto é montado pra cada paciente antes de abrir o WhatsApp.</p>
+    <textarea id="templateInput">Oi {nome}, tudo bem? 💛 Passando pra confirmar seu horário na Emagrecentro amanhã às {hora}. Consegue vir?</textarea>
+    <div class="vars">
+      <span class="var-chip">{nome}</span>
+      <span class="var-chip">{hora}</span>
+    </div>
+  </div>
+
+  <div class="section-title">
+    <h3>Pacientes do dia</h3>
+    <span class="count" id="listCount">0 pessoas</span>
+  </div>
+
+  <div class="filters">
+    <button class="filter-chip active" data-filter="all">Todos</button>
+    <button class="filter-chip" data-filter="pending">Pendentes</button>
+    <button class="filter-chip" data-filter="confirmed">Confirmados</button>
+    <button class="filter-chip" data-filter="noresponse">Não respondeu</button>
+  </div>
+
+  <div id="patientList"></div>
+
+  <div class="empty" id="emptyState">
+    <span class="icon">🗓️</span>
+    <p>Nenhum paciente importado ainda.<br>Comece subindo o CSV do dia acima.</p>
+  </div>
+
+  <p class="footer-note">Cada envio abre o WhatsApp com a mensagem pronta — você confere e aperta enviar. Nada é disparado automaticamente, então não há risco de bloqueio do número.</p>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+(function(){
+  const STORAGE_KEY = 'agenda_confirmacao_pacientes';
+  const DATE_KEY = 'agenda_confirmacao_datas';
+  let allRows = [];      // todos os agendamentos importados (todas as datas)
+  let patients = [];     // pacientes agrupados do dia selecionado
+  let currentFilter = 'all';
+  let selectedDate = '';
+
+  // ---------- persistence (in-memory only per session load, plus localStorage for day-to-day reuse on same device) ----------
+  function loadStored(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw) patients = JSON.parse(raw);
+    }catch(e){ patients = []; }
+  }
+  function saveStored(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(patients)); }catch(e){}
+  }
+
+  // ---------- csv parsing (formato simples: nome, telefone, horario) ----------
+  function parseCSV(text){
+    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length);
+    if(!lines.length) return [];
+    let rows = lines.map(l => l.split(',').map(c => c.trim().replace(/^"|"$/g,'')));
+    const first = rows[0].map(c => c.toLowerCase());
+    if(first.includes('nome') || first.includes('telefone') || first.includes('horario') || first.includes('horário')){
+      rows = rows.slice(1);
+    }
+    return rows.filter(r => r.length >= 2 && r[0]).map(r => ({
+      nome: r[0] || '',
+      telefone: (r[1] || '').replace(/[^\d+]/g,''),
+      data: '',
+      hora: r[2] || ''
+    }));
+  }
+
+  // ---------- xlsx parsing (relatório do sistema: título na l.1, cabeçalho na l.2, várias datas) ----------
+  function normHeader(h){ return (h||'').toString().trim().toLowerCase(); }
+
+  function parseXLSXRows(matrix){
+    // acha a linha de cabeçalho procurando uma célula "nome" nas primeiras linhas
+    let headerRowIdx = -1, cols = {};
+    for(let i = 0; i < Math.min(matrix.length, 6); i++){
+      const row = matrix[i].map(normHeader);
+      if(row.includes('nome')){ headerRowIdx = i; break; }
+    }
+    if(headerRowIdx === -1) return [];
+    matrix[headerRowIdx].forEach((h, idx) => {
+      const n = normHeader(h);
+      if(n === 'nome') cols.nome = idx;
+      else if(n === 'telefone') cols.telefone = idx;
+      else if(n === 'data') cols.data = idx;
+      else if(n === 'hora inicial' || n === 'horário' || n === 'horario') cols.hora = idx;
+      else if(n === 'status' && cols.status === undefined) cols.status = idx;
+    });
+    if(cols.nome === undefined || cols.telefone === undefined) return [];
+
+    const out = [];
+    for(let i = headerRowIdx + 1; i < matrix.length; i++){
+      const r = matrix[i];
+      if(!r || !r[cols.nome]) continue;
+      out.push({
+        nome: (r[cols.nome] || '').toString().trim(),
+        telefone: (r[cols.telefone] || '').toString().replace(/[^\d+]/g,''),
+        data: cols.data !== undefined ? (r[cols.data] || '').toString().trim() : '',
+        hora: cols.hora !== undefined ? (r[cols.hora] || '').toString().trim() : '',
+        status: cols.status !== undefined ? (r[cols.status] || '').toString().trim() : ''
+      });
+    }
+    return out;
+  }
+
+  // ---------- agrupamento por paciente (mesmo telefone) dentro do dia selecionado ----------
+  function groupByPatient(rows){
+    const map = new Map();
+    rows.forEach(r => {
+      if(!r.telefone) return;
+      const key = r.telefone;
+      if(!map.has(key)){
+        map.set(key, {
+          id: 'p_' + Math.random().toString(36).slice(2,9),
+          nome: r.nome,
+          telefone: r.telefone,
+          horas: [],
+          status: 'pending'
+        });
+      }
+      if(r.hora && !map.get(key).horas.includes(r.hora)) map.get(key).horas.push(r.hora);
+    });
+    return Array.from(map.values()).map(p => ({
+      ...p,
+      horas: p.horas.sort(),
+      hora: p.horas.join(' e ')
+    }));
+  }
+
+  function populateDateSelect(){
+    const dateSelectEl = document.getElementById('dateSelect');
+    const dateFilterRow = document.getElementById('dateFilterRow');
+    const dates = Array.from(new Set(allRows.map(r => r.data).filter(Boolean)));
+    if(!dates.length){
+      dateFilterRow.style.display = 'none';
+      return;
+    }
+    // ordena por data real (dd/mm/yyyy)
+    dates.sort((a,b) => {
+      const pa = a.split('/').reverse().join('');
+      const pb = b.split('/').reverse().join('');
+      return pa.localeCompare(pb);
+    });
+    dateSelectEl.innerHTML = dates.map(d => `<option value="${d}">${d}</option>`).join('');
+    dateFilterRow.style.display = 'block';
+    selectedDate = dates[0];
+    dateSelectEl.value = selectedDate;
+  }
+
+  function applyDateFilter(){
+    if(!selectedDate){
+      patients = groupByPatient(allRows);
+    } else {
+      patients = groupByPatient(allRows.filter(r => r.data === selectedDate));
+    }
+    saveStored();
+    render();
+  }
+
+  document.getElementById('dateSelect').addEventListener('change', e => {
+    selectedDate = e.target.value;
+    applyDateFilter();
+  });
+
+  function onFile(file){
+    const name = file.name.toLowerCase();
+    if(name.endsWith('.xlsx') || name.endsWith('.xls')){
+      const reader = new FileReader();
+      reader.onload = e => {
+        try{
+          const wb = XLSX.read(new Uint8Array(e.target.result), {type:'array'});
+          const sheet = wb.Sheets[wb.SheetNames[0]];
+          const matrix = XLSX.utils.sheet_to_json(sheet, {header:1, raw:false, defval:''});
+          const parsed = parseXLSXRows(matrix);
+          if(!parsed.length){
+            showToast('Não encontrei as colunas Nome/Telefone nessa planilha');
+            return;
+          }
+          allRows = parsed;
+          populateDateSelect();
+          applyDateFilter();
+          showToast(patients.length + ' pacientes em ' + (selectedDate || 'todas as datas'));
+        }catch(err){
+          showToast('Não consegui ler esse arquivo. Confere se é o .xlsx do relatório.');
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    } else {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const parsed = parseCSV(e.target.result);
+        if(!parsed.length){
+          showToast('Não encontrei linhas válidas nesse CSV');
+          return;
+        }
+        allRows = parsed;
+        document.getElementById('dateFilterRow').style.display = 'none';
+        selectedDate = '';
+        applyDateFilter();
+        showToast(patients.length + ' pacientes importados');
+      };
+      reader.readAsText(file, 'UTF-8');
+    }
+  }
+
+  const csvInput = document.getElementById('csvInput');
+  const dropZone = document.getElementById('dropZone');
+  csvInput.addEventListener('change', e => { if(e.target.files[0]) onFile(e.target.files[0]); });
+  ['dragenter','dragover'].forEach(evt => dropZone.addEventListener(evt, e => { e.preventDefault(); dropZone.classList.add('drag'); }));
+  ['dragleave','drop'].forEach(evt => dropZone.addEventListener(evt, e => { e.preventDefault(); dropZone.classList.remove('drag'); }));
+  dropZone.addEventListener('drop', e => { const f = e.dataTransfer.files[0]; if(f) onFile(f); });
+
+  document.getElementById('clearAllBtn').addEventListener('click', () => {
+    if(!confirm('Limpar toda a lista de pacientes?')) return;
+    patients = [];
+    allRows = [];
+    selectedDate = '';
+    document.getElementById('dateFilterRow').style.display = 'none';
+    saveStored();
+    render();
+  });
+
+  // ---------- template ----------
+  const templateInput = document.getElementById('templateInput');
+  templateInput.addEventListener('input', () => {
+    localStorage.setItem('agenda_template', templateInput.value);
+  });
+  const savedTemplate = localStorage.getItem('agenda_template');
+  if(savedTemplate) templateInput.value = savedTemplate;
+
+  function buildMessage(p){
+    return templateInput.value
+      .replaceAll('{nome}', p.nome.split(' ')[0] || p.nome)
+      .replaceAll('{hora}', p.hora || '—');
+  }
+
+  function waLink(p){
+    let phone = (p.telefone || '').replace(/\D/g,'');
+    if(phone && !phone.startsWith('55') && phone.length <= 11) phone = '55' + phone;
+    const msg = encodeURIComponent(buildMessage(p));
+    return phone ? `https://wa.me/${phone}?text=${msg}` : `https://wa.me/?text=${msg}`;
+  }
+
+  // ---------- filters ----------
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      currentFilter = chip.dataset.filter;
+      render();
+    });
+  });
+
+  // ---------- render ----------
+  function statusLabel(s){
+    return s === 'confirmed' ? 'Confirmado' : s === 'noresponse' ? 'Não respondeu' : 'Pendente';
+  }
+
+  function render(){
+    const listEl = document.getElementById('patientList');
+    const emptyEl = document.getElementById('emptyState');
+    const importActions = document.getElementById('importActions');
+
+    document.getElementById('statTotal').textContent = patients.length;
+    document.getElementById('statOk').textContent = patients.filter(p => p.status === 'confirmed').length;
+    document.getElementById('statPending').textContent = patients.filter(p => p.status !== 'confirmed').length;
+    document.getElementById('listCount').textContent = patients.length + (patients.length === 1 ? ' pessoa' : ' pessoas');
+    importActions.style.display = patients.length ? 'flex' : 'none';
+
+    const filtered = patients.filter(p => currentFilter === 'all' ? true : p.status === currentFilter);
+
+    if(!patients.length){
+      emptyEl.style.display = 'block';
+      listEl.innerHTML = '';
+      return;
+    }
+    emptyEl.style.display = 'none';
+
+    if(!filtered.length){
+      listEl.innerHTML = '<div class="empty"><span class="icon">🔍</span><p>Nenhum paciente nesse filtro.</p></div>';
+      return;
+    }
+
+    listEl.innerHTML = filtered.map(p => `
+      <div class="patient-card ${p.status}" data-id="${p.id}">
+        <div class="patient-info">
+          <p class="patient-name">${escapeHtml(p.nome)}</p>
+          <div class="patient-meta">
+            ${p.hora ? `<span class="time-badge">${escapeHtml(p.hora)}</span>` : ''}
+            <span class="status-pill ${p.status}">${statusLabel(p.status)}</span>
+          </div>
+        </div>
+        <div class="patient-actions">
+          <button class="icon-btn wa" title="Enviar confirmação" data-action="send" data-id="${p.id}">📲</button>
+          <button class="icon-btn check ${p.status === 'confirmed' ? 'done' : ''}" title="Marcar confirmado" data-action="toggle" data-id="${p.id}">✓</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function escapeHtml(str){
+    return (str || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  document.getElementById('patientList').addEventListener('click', e => {
+    const btn = e.target.closest('button[data-action]');
+    if(!btn) return;
+    const id = btn.dataset.id;
+    const p = patients.find(x => x.id === id);
+    if(!p) return;
+
+    if(btn.dataset.action === 'send'){
+      window.open(waLink(p), '_blank');
+      if(p.status === 'pending'){
+        p.status = 'pending'; // still awaiting response, but mark as "sent" visually via pending state
+      }
+      saveStored();
+      render();
+    }
+    if(btn.dataset.action === 'toggle'){
+      p.status = p.status === 'confirmed' ? 'pending' : 'confirmed';
+      saveStored();
+      render();
+    }
+  });
+
+  // long-press-ish: allow marking "não respondeu" via double click on status pill area (simple right-click alt)
+  document.getElementById('patientList').addEventListener('dblclick', e => {
+    const card = e.target.closest('.patient-card');
+    if(!card) return;
+    const p = patients.find(x => x.id === card.dataset.id);
+    if(!p) return;
+    p.status = p.status === 'noresponse' ? 'pending' : 'noresponse';
+    saveStored();
+    render();
+  });
+
+  let toastTimer;
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+  }
+
+  loadStored();
+  render();
+
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  }
+})();
+</script>
+
+</body>
+</html>
